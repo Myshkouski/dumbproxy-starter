@@ -1,0 +1,32 @@
+services:
+  dumbproxy:
+    image: ghcr.io/senseunit/dumbproxy:${DUMBPROXY_VERSION:-latest-alpine}
+    command:
+      - "-bind-address=:9443"
+      - "-auth=basicfile://?path=/run/secrets/dumbproxy_htpasswd"
+      - "-cert"
+      - "/run/secrets/dumbproxy_cert_fullchain"
+      - "-key"
+      - "/run/secrets/dumbproxy_key"
+    secrets:
+      - dumbproxy_cert_fullchain
+      - dumbproxy_key
+      - dumbproxy_htpasswd
+    volumes:
+      - dumbproxy:/.dumbproxy
+    networks:
+      dumbproxy:
+
+networks:
+  dumbproxy:
+
+secrets:
+  dumbproxy_cert_fullchain:
+    file: ./dumbproxy/secrets/fullchain.pem
+  dumbproxy_key:
+    file: ./dumbproxy/secrets/key.pem
+  dumbproxy_htpasswd:
+    file: ./dumbproxy/secrets/.htpasswd
+
+volumes:
+  dumbproxy:
