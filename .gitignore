@@ -1,0 +1,9 @@
+# Env files
+.env
+.env.*
+*.env
+*.env.*
+
+# Docker Compose config overrides
+compose.override.yml
+docker-compose.override.yml
